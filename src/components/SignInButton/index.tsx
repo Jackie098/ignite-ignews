@@ -9,7 +9,7 @@ export function SignInButton() {
     <>
       <button type="button" className={styles.signInButton}>
         <FaGithub color="#04D361" />
-        SMeu egg
+        carlosBrand15
         <FiX color="#737380" />
       </button>
     </>
