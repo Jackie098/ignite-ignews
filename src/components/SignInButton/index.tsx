@@ -4,7 +4,7 @@ import { FiX } from "react-icons/fi";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export function SignInButton() {
-  const { data: session } = useSession();
+  const { data: session } = useSession(); // it will be stored in cookies
 
   // console.log(session);
 

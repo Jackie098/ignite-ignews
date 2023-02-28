@@ -1,4 +1,3 @@
-// import styles from "../styles/home.module.scss";
 import { GetServerSideProps, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -84,7 +83,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 /**
- * Client-side
- * Server-side
- * Static site generation
+ * Client-side (CRS)
+ * Server-side (SSR)
+ * Static site generation (SSG)
  */
