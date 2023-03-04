@@ -5,5 +5,7 @@ declare namespace NodeJS {
     STRIPE_API_KEY: string;
     GITHUB_CLIENT_ID: string;
     GITHUB_CLIENT_SECRET: string;
+    FAUNADB_KEY: string;
+    SIGNIN_KEY: string;
   }
 }
