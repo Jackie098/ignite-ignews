@@ -4,7 +4,8 @@ import { stripe } from "../../../services/stripe";
 
 export async function saveSubscription(
   subscriptionId: string,
-  customerId: string
+  customerId: string,
+  createAction = false
 ) {
   // query to select only "ref" field and find the customer that is
   // make a subscription payment
@@ -15,7 +16,7 @@ export async function saveSubscription(
     )
   );
 
-  console.log("userRef +++ ", userRef);
+  // console.log("userRef +++ ", userRef);
 
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
@@ -26,9 +27,29 @@ export async function saveSubscription(
     price_id: subscription.items.data[0].price.id,
   };
 
-  console.log("subscriptionData +++ ", subscriptionData);
+  // console.log("subscriptionData +++ ", subscriptionData);
 
-  await fauna.query(
-    q.Create(q.Collection("subscriptions"), { data: subscriptionData })
-  );
+  if (createAction) {
+    /**
+     * If the app has more then one method for subscription, the app must have
+     * a condition to difference 'customer.subscription.created' of the
+     * 'checkout.session.completed' webhook.
+     *
+     * If not, the create query in fauna db will be duplicated, because the query
+     * below will be triggered twice.
+     */
+    await fauna.query(
+      q.Create(q.Collection("subscriptions"), { data: subscriptionData })
+    );
+  } else {
+    await fauna.query(
+      q.Replace(
+        q.Select(
+          "ref",
+          q.Get(q.Match(q.Index("subscription_by_id"), subscriptionId))
+        ),
+        { data: subscriptionData }
+      )
+    );
+  }
 }
